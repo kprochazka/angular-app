@@ -12,23 +12,23 @@ This sample application is featured in our [book](http://goo.gl/gKEsIo) where yo
 
 <a href="http://goo.gl/gKEsIo"><img src="http://www.packtpub.com/sites/default/files/1820OS.jpg"></a>
 
-We've learned a lot while using and supporting AngularJS on the [mailing list](https://groups.google.com/group/angular) and would like to share our experience. 
+We've learned a lot while using and supporting AngularJS on the [mailing list](https://groups.google.com/group/angular) and would like to share our experience.
 
 ## Stack
 
 * Persistence store: [MongoDB](http://www.mongodb.org/) hosted on [MongoLab](https://mongolab.com/)
 * Backend: [Node.js](http://nodejs.org/)
 * Awesome [AngularJS](http://www.angularjs.org/) on the client
-* CSS based on [Twitter's bootstrap](http://twitter.github.com/bootstrap/)
+* CSS based on [Twitter's bootstrap](http://getbootstrap.com/)
 
 ### Build
 
 It is a complete project with a build system focused on AngularJS apps and tightly integrated with other tools commonly used in the AngularJS community:
 * powered by [Grunt.js](http://gruntjs.com/)
-* test written using [Jasmine](http://pivotal.github.com/jasmine/) syntax
+* test written using [Jasmine](http://jasmine.github.io/) syntax
 * test are executed by [Karma Test Runner](http://karma-runner.github.io/0.8/index.html) (integrated with the Grunt.js build)
 * build supporting JS, CSS and AngularJS templates minification
-* [Twitter's bootstrap](http://twitter.github.com/bootstrap/) with LESS templates processing integrated into the build
+* [Twitter's bootstrap](http://getbootstrap.com/) with LESS templates processing integrated into the build
 * [Travis-CI](https://travis-ci.org/) integration
 
 ## Installation
@@ -82,13 +82,13 @@ Our client application is a straight HTML/Javascript application but our develop
     ```
 
   (This will install the dependencies declared in the client/package.json file)
-  
+
 ## Building
 
 ### Configure Server
 The server stores its data in a MongoLab database.
 * Create an account at MongoLab - it's free: [https://mongolab.com/signup/].
-* Create a database to use for this application: [https://mongolab.com/newdb]
+* Create a database to use for this application: [https://mongolab.com/create]
 * Grab your API key: [https://mongolab.com/user?username=YOUR_USERNAME_HERE]
 * Edit `server/config.js` to set your MongoLab API Key and the name of the database you created.
 
@@ -103,10 +103,19 @@ The server stores its data in a MongoLab database.
     },
     ```
 
+* Optionally change the name of admin user in `server/lib/initDB.js`.  The default is 'Admin' (admin@abc.com : changeme). 
+
+    ```
+    var initDB = {
+      adminUser: { email: 'admin@abc.com', password: 'changeme', admin: true, firstName: 'Admin', lastName: 'User' },
+    });
+    // Note the user information, including password, are stored as plain text in the MongoLab database.
+    ```
+
 * Run our initialization script to initialize the database with a first admin user (admin@abc.com : changeme).
 
     ```
-    `node server/initDB.js`
+    node server/initDB.js
     ```
 
 ### Configure Client
@@ -114,15 +123,15 @@ The client specifies the name of the MongoDB to use in `client/src/app/app.js`. 
 
 ```
 angular.module('app').constant('MONGOLAB_CONFIG', {
-  baseUrl: 'http://localhost:3000/databases/',
+  baseUrl: '/databases/',
   dbName: 'ascrum'
 });
 ```
 
 ### Build the client app
 The app made up of a number of javascript, css and html files that need to be merged into a final distribution for running.  We use the Grunt build tool to do this.
-* Build client application: 
-    
+* Build client application:
+
     ```
     cd client
     grunt build
@@ -141,6 +150,7 @@ The app made up of a number of javascript, css and html files that need to be me
     cd ..
     ```
 * Browse to the application at [http://localhost:3000]
+* Login with the admin user as defined in `server/lib/initDB.js`. 
 
 ## Browser Support
 We only regularly test against Chrome 29 and occasionally against Firefox and Internet Explorer.
@@ -153,7 +163,7 @@ testing against browsers that you need to support.
 ### Folders structure
 At the top level, the repository is split into a client folder and a server folder.  The client folder contains all the client-side AngularJS application.  The server folder contains a very basic Express based webserver that delivers and supports the application.
 Within the client folder you have the following structure:
-* `build` contains build tasks for Grunt
+* `node_modules` contains build tasks for Grunt along with other, user-installed, Node packages
 * `dist` contains build results
 * `src` contains application's sources
 * `test` contains test sources, configuration and dependencies
